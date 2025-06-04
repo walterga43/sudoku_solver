@@ -15,7 +15,25 @@ class SudokuSolver:
         print(self.puzzle_grid[r][c], end=" ")
       print()
 
-## def is_valid_move(self, row, col, num):
+  def is_valid_move(self, row, col, num):
+    # Checks all numbers in the same collum
+    for r in range(9):
+      if num == self.puzzle_grid[r][col]:
+        return False
+    
+    # Checks all numbers in the same row
+    for c in range(9):
+      if num == self.puzzle_grid[row][c]:
+        return False
+
+    box_row = (row // 3) * 3
+    box_col = (col // 3) * 3
+
+    for i in range(box_row, box_row+3):
+      if self.puzzle_grid[i][box_col] == num or self.puzzle_grid[i][box_col+1] == num or self.puzzle_grid[i][box_col+2] == num:
+        return False
+    return True
+
 
 ## def find_empty_cell(self):
 
