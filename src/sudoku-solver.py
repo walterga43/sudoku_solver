@@ -16,7 +16,7 @@ class SudokuSolver:
       print()
 
   def is_valid_move(self, row, col, num):
-    # Checks all numbers in the same collum
+    # Checks all numbers in the same column 
     for r in range(9):
       if num == self.puzzle_grid[r][col]:
         return False
@@ -29,18 +29,37 @@ class SudokuSolver:
     box_row = (row // 3) * 3
     box_col = (col // 3) * 3
 
-    for i in range(box_row, box_row+3):
-      if self.puzzle_grid[i][box_col] == num or self.puzzle_grid[i][box_col+1] == num or self.puzzle_grid[i][box_col+2] == num:
-        return False
-    return True
+    for r in range(box_row, box_row+3):
+      for c in range(box_col, box_col+3):
+        if num == self.puzzle_grid:
+          return False
+      return True
 
 
-## def find_empty_cell(self):
+  def find_empty_cell(self):
+    for r in range(len(self.puzzle_grid)):
+      for c in range(len(self.puzzle_grid[0])):
+        if self.puzzle_grid[r][c] == 0:
+          return (r,c)
+    return None
 
-## def solve(self):
+  def solve(self):
+
+    if self.find_empty_cell() == None:
+      return
+    
+    for i in range(9):
+      next_cells = self.find_empty_cell()
+      r, c = next_cells[0], next_cells[1]
+      if self.is_valid_move(r, c, i):
+        self.puzzle_grid[r][c] = i
+    
+    self.solve()
 
 if __name__ == "__main__":
   puzzle = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"
   solver = SudokuSolver()
   solver.load_puzzle(puzzle)
+  solver.print_board()
+  solver.solve()
   solver.print_board()
