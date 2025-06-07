@@ -31,9 +31,9 @@ class SudokuSolver:
 
     for r in range(box_row, box_row+3):
       for c in range(box_col, box_col+3):
-        if num == self.puzzle_grid:
+        if num == self.puzzle_grid[r][c]:
           return False
-      return True
+    return True
 
 
   def find_empty_cell(self):
@@ -45,16 +45,22 @@ class SudokuSolver:
 
   def solve(self):
 
-    if self.find_empty_cell() == None:
-      return
+    if self.find_empty_cell() is None:
+      return True
     
-    for i in range(9):
+    for i in range(1, 10):
       next_cells = self.find_empty_cell()
       r, c = next_cells[0], next_cells[1]
       if self.is_valid_move(r, c, i):
         self.puzzle_grid[r][c] = i
-    
-    self.solve()
+
+        if self.solve():
+          return True
+
+        self.puzzle_grid[r][c] = 0
+
+    return False
+
 
 if __name__ == "__main__":
   puzzle = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"
@@ -62,4 +68,6 @@ if __name__ == "__main__":
   solver.load_puzzle(puzzle)
   solver.print_board()
   solver.solve()
+  print()
+  print()
   solver.print_board()
