@@ -37,6 +37,7 @@ class SudokuSolver:
 
 
   def find_empty_cell(self):
+    # Helper methof for solve to find empty cells
     for r in range(len(self.puzzle_grid)):
       for c in range(len(self.puzzle_grid[0])):
         if self.puzzle_grid[r][c] == 0:
@@ -44,7 +45,7 @@ class SudokuSolver:
     return None
 
   def solve(self):
-
+    # Main solve method
     if self.find_empty_cell() is None:
       return True
     
@@ -61,13 +62,30 @@ class SudokuSolver:
 
     return False
 
+def main():
 
+  while True:
+    
+    print("Example Puzzle: 53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79")
+    puzzle = input("Enter a puzzle (left to right with . representing empty cells)")
+    if len(puzzle) != 81:
+      print("Puzzle is not vaild. Please try again")
+      continue
+    solver = SudokuSolver()
+    print("YOUR PUZZLE")
+    print("--------------------------------")
+    solver.load_puzzle(puzzle)
+    solver.print_board()
+    print()
+
+    print("SOLVED PUZZLE")
+    print("--------------------------------")
+    solver.solve()
+    solver.print_board()
+    print()
+
+    continue_puzzle = input("Would you like to enter another puzzle? (y/n):").strip().lower()
+    if continue_puzzle == "n":
+      break
 if __name__ == "__main__":
-  puzzle = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"
-  solver = SudokuSolver()
-  solver.load_puzzle(puzzle)
-  solver.print_board()
-  solver.solve()
-  print()
-  print()
-  solver.print_board()
+  main()
